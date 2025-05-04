@@ -1,0 +1,35 @@
+name: Reentrenar Modelo
+
+on:
+  push:
+    branches:
+      - main  # Cambia a tu rama principal si es diferente
+  schedule:
+    - cron: '0 0 * * *'  # Ejecutar todos los días a medianoche (puedes ajustar la frecuencia)
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        pip install -r model/requirements.txt
+
+    - name: Ejecutar el reentrenamiento del modelo
+      run: |
+        python model/model.py
+
+    - name: Guardar el modelo entrenado como artefacto
+      uses: actions/upload-artifact@v2
+      with:
+        name: best_logistic_model
+        path: model/best_logistic_model.joblib

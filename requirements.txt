@@ -1,0 +1,5 @@
+polars
+scikit-learn
+matplotlib
+joblib
+jupyter
